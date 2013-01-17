@@ -4,8 +4,9 @@ var irc = require('irc'),
     logger = require('./logger');
 
 var ircServer = 'irc.mozilla.org',
-    nick = '_AutomationBot',
-    options = {channels: ['#automation', '#mozwebqa'],},
+    // read nick and channel from command line arguments if they exist
+    nick = (process.argv[2]) ? process.argv[2] : 'mozwebqabot',
+    options = {channels: [(process.argv[3]) ? process.argv[3] : '#mozwebqa'],},
     client = new irc.Client(ircServer, nick, options),
     help = { ":help" : "This is Help! :)",
              ":gist" : "Gives you a link to Pastebin",
@@ -33,10 +34,12 @@ var ircServer = 'irc.mozilla.org',
         "nightlytt" : "https://github.com/mozilla/nightlytt"
         }
       , mozwebqa : {
-      },
+      }, webqaworkweek: {
+        "test" : "test"
+      }
     },
     meeting = {
-      automation:{
+      webqaworkweek:{
         expert: "Come join us at 12:00 UTC on Thursday. You can find details at https://wiki.mozilla.org/Auto-tools/Automation_Development/Meetings#.22Ask_an_Expert.22_Q.26A_session",
         meeting: "Our Meeting is held every week on a Monday at 08:45 PDT/PST. ",
         vidyo: "You can join in with Vidyo at https://v.mozilla.com/flex.html?roomdirect.html&key=PGtLpx3XQGJz or if dialing from a room use 63.245.220.25##04654 or for more details go to https://wiki.mozilla.org/Auto-tools/Automation_Development/Meetings",
@@ -62,8 +65,15 @@ client.addListener('message', function (from, to, message) {
     if (message.search("damn you") >= 0) {
       client.say(to, "I am so sorry " + from + ", can we hug?");
     }
+    if (message.search("pew pew") >= 0) {
+      client.say(to, "Ouch! Damn you, " + from + "!");
+    }
   }
 
+
+  if (message.search(":welcome") === 0){
+    client.say(to, "Welcome to the Mozilla Web QA IRC channel. We love visitors! Please say hi and let us know if we can help you.");
+  }
 
   if (message.search(":gist") === 0){
     client.say(to, "Please paste >3 lines of text to http://pastebin.mozilla.org");
@@ -192,7 +202,7 @@ client.addListener('message', function (from, to, message) {
     }
   }
 
-  if (message.search(":expert") === 0){
+  if (message.search(":meeting") === 0){
     console.log(to.substring(1).toLowerCase());
     if (meeting[to.substring(1).toLowerCase()].expert){
       client.say(to, meeting[to.substring(1).toLowerCase()].expert + " " + meeting[to.substring(1).toLowerCase()].vidyo);
