@@ -24,6 +24,7 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
              ":github" : "Show a list of github projects"
            },
     source = 'https://github.com/bobsilverberg/mozwebqa-bot',
+    issuesTracker = 'https://github.com/bobsilverberg/mozwebqa-bot/issues',
 
     github = {
       "flightdeck": "mozilla/FlightDeck-selenium",
@@ -240,7 +241,7 @@ client.addListener('message', function (from, to, message) {
         client.say(to, "Issues for " + project[1] +  " can be found at " + github[key][project[1]] + "/issues");
       } else {
         client.say(to, "I am sorry I don't know of that project. Please raise an issue on " +
-            "https://github.com/bobsilverberg/mozwebqa-bot/issues if I should know about it");
+            issuesTracker + " if I should know about it");
       }
     } else {
       client.say(to, "please use the syntax :issues project. You can get a list of projects by calling :github");
