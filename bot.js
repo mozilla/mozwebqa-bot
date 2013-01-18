@@ -73,6 +73,18 @@ client.addListener('message', function (from, to, message) {
     client.say(to, "Welcome to the Mozilla Web QA IRC channel. We love visitors! Please say hi and let us know if we can help you.");
   }
 
+  if (message.search(":[Gg]etInvolved") === 0){
+    client.say(to, "Hey " + from + " that's awesome that you'd like to get involved. Please tell me, are you interested in :Manual or :Automated testing.");
+  }
+
+  if (message.search(":[Aa]utomated") === 0){
+    client.say(to, "Very cool, " + from + ", I love automated testing too! You can find out more at https://quality.mozilla.org/teams/web-qa/#Automated, or just ask a question here.");
+  }
+
+  if (message.search(":[Mm]anual") === 0){
+    client.say(to, "Very cool, " + from + ", I love manual testing too! You can find out more at https://quality.mozilla.org/teams/web-qa/#Manual, or just ask a question here.");
+  }
+
   if (message.search(":gist") === 0){
     client.say(to, "Please paste >3 lines of text to http://pastebin.mozilla.org");
   }
@@ -250,3 +262,10 @@ client.addListener('quit', function(who, reason, channel){
 client.addListener('error', function(message){
   console.error("message");
 });
+
+//make server to keep heroku happy
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('IRC bot at '+CHANNEL+' on irc.mozilla.org\n');
+}).listen(process.env.PORT||8080);
+
