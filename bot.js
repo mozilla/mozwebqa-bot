@@ -41,7 +41,7 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
       "wiki": "mozilla/wiki-tests",
       "bouncer": "mozilla/bouncer-tests",
       "marketplace": "mozilla/marketplace-tests"
-    }
+    };
 
 client.addListener('join'+CHANNEL, function (nick) {
   if (!utils.seen(nick)){
@@ -52,51 +52,51 @@ client.addListener('join'+CHANNEL, function (nick) {
 
 client.addListener('message', function (from, to, message) {
   if (from === 'firebot') {
-    console.log("ignoreing firebot")
+    console.log("ignoring firebot");
     return;
   }
 
   console.log(from + ' => ' + to + ': ' + message);
   logger.log({channel:to, from:from, message:message});
   if (message.search(nick) >= 0){
-    if (message.search(" hi[ $]?") >= 1){
+    if (message.search(/ hi[ $]?/i) >= 1){
       client.say(to, "Hi hi " + from);
     }
-    if (message.search("damn you") >= 0) {
+    if (message.search(/damn you/i) >= 0) {
       client.say(to, "I am so sorry " + from + ", can we hug?");
     }
-    if (message.search("pew pew") >= 0) {
+    if (message.search(/pew pew/i) >= 0) {
       client.say(to, "Ouch! Damn you, " + from + "!");
     }
   }
 
-  if (message.search(":welcome") === 0){
+  if (message.search(/:welcome/i) === 0){
     client.say(to, "Welcome to the Mozilla Web QA IRC channel. We love visitors! Please say hi and let us know how we can help you help us.");
   }
 
-  if (message.search(":[Gg]et[Ii]nvolved") === 0){
+  if (message.search(/:getinvolved/i) === 0){
     client.say(to, "Hey " + from + " that's awesome that you'd like to get involved. Please tell me, are you interested in :Manual or :Automated testing.");
   }
 
-  if (message.search(":[Aa]utomated") === 0){
+  if (message.search(/:automated/i) === 0){
     client.say(to, "Very cool, " + from + ", I love automated testing too! You can find out more at https://quality.mozilla.org/teams/web-qa/#Automated, or just ask a question here.");
   }
 
-  if (message.search(":[Mm]anual") === 0){
+  if (message.search(/:manual/i) === 0){
     client.say(to, "Very cool, " + from + ", I love manual testing too! You can find out more at https://quality.mozilla.org/teams/web-qa/#Manual, or just ask a question here.");
   }
 
-  if (message.search(":gist") === 0){
+  if (message.search(/:gist/i) === 0){
     client.say(to, "Please paste >3 lines of text to http://pastebin.mozilla.org");
   }
 
-  if (message.search(":help") === 0){
+  if (message.search(/:help/i) === 0){
     for (var item in help){
       client.say(from, item + " : " + help[item]);
     }
   }
 
-  if (message.search(":yt") === 0){
+  if (message.search(/:yt/i) === 0){
     var options = {
         host: 'gdata.youtube.com',
         port: 443,
@@ -175,11 +175,11 @@ client.addListener('message', function (from, to, message) {
     req.end();
   }
 
-  if (message.search(":source") === 0){
+  if (message.search(/:source/i) === 0){
     client.say(to, 'My details and code lives at ' + source + '. Go have a look!');
   }
 
-  if (message.search(":list") === 0){
+  if (message.search(/:list/i) === 0){
     var search = /:list (.+)/.exec(message);
     if (search === null){
       client.say(to, "http://groups.google.com/group/mozilla.dev.automation");
@@ -188,11 +188,11 @@ client.addListener('message', function (from, to, message) {
     }
   }
 
-  if (message.search(":meeting") === 0){
+  if (message.search(/:meeting/i) === 0){
     client.say(to, "Come join us at 9AM PDT/PST on a Thursday. You can join in with Vidyo at https://v.mozilla.com/flex.html?roomdirect.html&key=ZAlDIwL9AJcf or dial in 650-903-0800 or 650-215-1282 x92 Conf #9303 (US/INTL) or 1-800-707-2533 (pin 369) Conf #9303 (US)");
   }
 
-  if (message.search(":newissue") >= 0){
+  if (message.search(/:newissue/i) >= 0){
     var project = /:newissue ([a-z-_]+)/.exec(message);
     if (project !== null){
       if (project[1] in github){
@@ -205,7 +205,7 @@ client.addListener('message', function (from, to, message) {
     }
   }
 
-  if (message.search(":issues") >= 0){
+  if (message.search(/:issues/i) >= 0){
     var project = /:issues ([a-z-_]+)/.exec(message);
     if (project !== null){
       var key = to.substring(1).toLowerCase();
@@ -221,7 +221,7 @@ client.addListener('message', function (from, to, message) {
     }
   }
 
-  if (message.search(":github") === 0){
+  if (message.search(/:github/i) === 0){
     for (var item in github){
       client.say(from, item + ": https://github.com/" + github[item]);
     }
