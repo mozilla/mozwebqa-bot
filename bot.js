@@ -20,7 +20,8 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
              ":standup" : "Shows the details for the standup the team has twice a week",
              ":meeting" : "Shows details and a link to the meetings page",
              ":newissue" : "Just add :newissue project to a conversation and it will show a summary of the bug",
-             ":github" : "Show a list of github projects"
+             ":github" : "Show a list of github projects",
+             ":getInvolved" : "Provide some information on getting involved in Web QA testing"
            },
     source = 'https://github.com/bobsilverberg/mozwebqa-bot',
 
@@ -44,7 +45,7 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
 
 client.addListener('join'+CHANNEL, function (nick) {
   if (!utils.seen(nick)){
-    client.say(CHANNEL, "Welcome to "+CHANNEL+" "+nick+"! We love visitors! Please say hi and let us know how we can help you help us.");
+    client.say(CHANNEL, "Welcome to "+CHANNEL+" "+nick+"! We love visitors! Please say hi and let us know how we can help you help us. For more information, type ':getInvolved'.");
     utils.joined.push(nick);
   }
 });
@@ -70,10 +71,10 @@ client.addListener('message', function (from, to, message) {
   }
 
   if (message.search(":welcome") === 0){
-    client.say(to, "Welcome to the Mozilla Web QA IRC channel. We love visitors! Please say hi and let us know if we can help you.");
+    client.say(to, "Welcome to the Mozilla Web QA IRC channel. We love visitors! Please say hi and let us know how we can help you help us.");
   }
 
-  if (message.search(":[Gg]etInvolved") === 0){
+  if (message.search(":[Gg]et[Ii]nvolved") === 0){
     client.say(to, "Hey " + from + " that's awesome that you'd like to get involved. Please tell me, are you interested in :Manual or :Automated testing.");
   }
 
@@ -213,7 +214,7 @@ client.addListener('message', function (from, to, message) {
         client.say(to, "Issues for " + project[1] +  " can be found at " + github[key][project[1]] + "/issues");
       } else {
         client.say(to, "I am sorry I don't know of that project. Please raise an issue on " +
-            "http://oss.theautomatedtester.co.uk/automation-services-bot/ if I should know about it");
+            source + "/issues/new if I should know about it");
       }
     } else {
       client.say(to, "please use the syntax :issues project. You can get a list of projects by calling :github");
@@ -225,38 +226,6 @@ client.addListener('message', function (from, to, message) {
       client.say(from, item + ": https://github.com/" + github[item]);
     }
   }
-});
-
-client.addListener('pm', function(nick, message){
-  if (message.search('help') === 0){
-    for (var item in help){
-      client.say(nick, item + " : " + help[item]);
-    }
-  }
-});
-
-client.addListener('join', function(channel, who){
-  logger.log({channel:channel, action: "join", who: who});
-});
-
-client.addListener('part', function(channel, who, reason){
-  logger.log({channel:channel, action: "part", who: who, reason:reason})
-});
-
-client.addListener('kick', function(channel, who, by, reason) {
-  logger.log({who:who, channel:channel, by:by, reason:reason, action:'kick'});
-});
-
-client.addListener('invite', function(channel, from){
-  logger.log({channel:channel, action:"invite", from:from});
-});
-
-client.addListener('nick', function(oldnick, newnick, channel){
-  logger.log({channel:channel, action:"nick", oldnick:oldnick, newnick:newnick});
-});
-
-client.addListener('quit', function(who, reason, channel){
-  logger.log({channel:channel, action: "quit", who: who, reason:reason})
 });
 
 client.addListener('error', function(message){
