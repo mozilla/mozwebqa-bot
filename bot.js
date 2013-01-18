@@ -16,7 +16,7 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
              ":yt" : "Pass in your search and I will give you a youtube link",
              "Bugzilla" : "Just add bug xxxxxx to a conversation and it will show a summary of the bug",
              ":source" : "Returns the GitHub URL for me",
-             ":list" : "Either returns the URL to the Google Group or a link with your search topic",
+             ":list" : "Returns the URL to the groups mailing list",
              ":standup" : "Shows the details for the standup the team has twice a week",
              ":meeting" : "Shows details and a link to the meetings page",
              ":newissue" : "Just add :newissue project to a conversation and it will show a summary of the bug",
@@ -183,12 +183,7 @@ client.addListener('message', function (from, to, message) {
   }
 
   if (message.search(":list") === 0){
-    var search = /:list (.+)/.exec(message);
-    if (search === null){
-      client.say(to, "http://groups.google.com/group/mozilla.dev.automation");
-    } else {
-      client.say(to, "http://groups.google.com/group/mozilla.dev.automation/search?group=mozilla.dev.automation&q=" + search[1].replace(/ /g, '+') + "&qt_g=Search+this+group");
-    }
+    client.say(to, 'mozwebqa mailing list https://mail.mozilla.org/listinfo/mozwebqa');
   }
 
   if (message.search(":meeting") === 0){
