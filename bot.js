@@ -241,7 +241,7 @@ client.addListener('message', function (from, to, message) {
         client.say(to, "Issues for " + project[1] +  " can be found at " + github[key][project[1]] + "/issues");
       } else {
         client.say(to, "I am sorry I don't know of that project. Please raise an issue on " +
-            "http://oss.theautomatedtester.co.uk/automation-services-bot/ if I should know about it");
+            source + "/issues/new if I should know about it");
       }
     } else {
       client.say(to, "please use the syntax :issues project. You can get a list of projects by calling :github");
