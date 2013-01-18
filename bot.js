@@ -21,25 +21,26 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
              ":standup" : "Shows the details for the standup the team has twice a week",
              ":meeting" : "Shows details and a link to the meetings page",
              ":newissue" : "Just add :newissue project to a conversation and it will show a summary of the bug",
-             ":github" : "Will show a list of Github projects for that team",
+             ":github" : "Show a list of github projects"
            },
+    source = 'https://github.com/bobsilverberg/mozwebqa-bot',
 
-    //TODO(David) Move the following objects into a datastore. this will make issue #26 much easier to implement
     github = {
-      automation: {
-        "memchaser" : "https://github.com/whimboo/memchaser",
-        "mozmill-dashboard" : "https://github.com/whimboo/mozmill-dashboard",
-        "pytest-mozwebqa" : "https://github.com/davehunt/pytest-mozwebqa",
-        "mozmill-crowd" : "https://github.com/whimboo/mozmill-crowd",
-        "automation-services-bot" : "https://github.com/automatedtester/automation-services-bot",
-        "unittest-zero": "https://github.com/automatedtester/unittest-zero",
-        "testdaybot" : "https://github.com/automatedtester/testdaybot",
-        "nightlytt" : "https://github.com/mozilla/nightlytt"
-        }
-      , mozwebqa : {
-      }, webqaworkweek: {
-        "test" : "test"
-      }
+      "flightdeck": "mozilla/FlightDeck-selenium",
+      "affiliates": "mozilla/Affiliates-Tests",
+      "moztrap": "mozilla/moztrap-tests",
+      "addons": "mozilla/Addon-Tests",
+      "mdn": "mozilla/mdn-tests",
+      "mcom": "mozilla/mcom-tests",
+      "snippets": "mozilla/snippets-tests",
+      "sumo": "mozilla/sumo-tests",
+      "socorro": "mozilla/Socorro-Tests",
+      "marketing-template": "mozilla/marketing-project-template",
+      "templates": "mozilla/mozwebqa-test-templates",
+      "qmo": "mozilla/qmo-tests",
+      "wiki": "mozilla/wiki-tests",
+      "bouncer": "mozilla/bouncer-tests",
+      "marketplace": "mozilla/marketplace-tests"
     },
     meeting = {
       webqaworkweek:{
@@ -175,7 +176,7 @@ client.addListener('message', function (from, to, message) {
   }
 
   if (message.search(":source") === 0){
-    client.say(to, "My details and code lives at http://automatedtester.github.com/automation-services-bot/. Go have a look!");
+    client.say(to, 'My details and code lives at ' + source + '. Go have a look!');
   }
 
   if (message.search(":pivotal") === 0){
@@ -234,13 +235,10 @@ client.addListener('message', function (from, to, message) {
   if (message.search(":newissue") >= 0){
     var project = /:newissue ([a-z-_]+)/.exec(message);
     if (project !== null){
-      var key = to.substring(1).toLowerCase();
-      console.log(key);
-      if (github[key][project[1]]){
-        client.say(to, "Please raise an issue at " + github[key][project[1]] + "/issues/new");
+      if (project[1] in github){
+        client.say(to, "Please raise an issue at https://github.com/" + github[project[1]] + "/issues/new");
       } else {
-        client.say(to, "I am sorry I don't know of that project. Please raise an issue on " +
-            "http://oss.theautomatedtester.co.uk/automation-services-bot/ if I should know about it");
+        client.say(to, "I am sorry I don't know of that project. Please raise an issue at " + source + '/issues/new/ if I should know about it!');
       }
     } else {
       client.say(to, "please use the syntax :newissue project. You can get a list of projects by calling :github");
@@ -264,9 +262,8 @@ client.addListener('message', function (from, to, message) {
   }
 
   if (message.search(":github") === 0){
-    var projects = github[to.substring(1).toLowerCase()];
-    for (var item in projects){
-      client.say(from, item + " : " + projects[item]);
+    for (var item in github){
+      client.say(from, item + ": https://github.com/" + github[item]);
     }
   }
 });
