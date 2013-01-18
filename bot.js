@@ -228,38 +228,6 @@ client.addListener('message', function (from, to, message) {
   }
 });
 
-client.addListener('pm', function(nick, message){
-  if (message.search('help') === 0){
-    for (var item in help){
-      client.say(nick, item + " : " + help[item]);
-    }
-  }
-});
-
-client.addListener('join', function(channel, who){
-  logger.log({channel:channel, action: "join", who: who});
-});
-
-client.addListener('part', function(channel, who, reason){
-  logger.log({channel:channel, action: "part", who: who, reason:reason})
-});
-
-client.addListener('kick', function(channel, who, by, reason) {
-  logger.log({who:who, channel:channel, by:by, reason:reason, action:'kick'});
-});
-
-client.addListener('invite', function(channel, from){
-  logger.log({channel:channel, action:"invite", from:from});
-});
-
-client.addListener('nick', function(oldnick, newnick, channel){
-  logger.log({channel:channel, action:"nick", oldnick:oldnick, newnick:newnick});
-});
-
-client.addListener('quit', function(who, reason, channel){
-  logger.log({channel:channel, action: "quit", who: who, reason:reason})
-});
-
 client.addListener('error', function(message){
   console.error("message");
 });
