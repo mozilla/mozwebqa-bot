@@ -4,6 +4,6 @@ This is an IRC bot that sits and monitors what is happening in the channel it is
 
 ## Staring the Bot
 By default the bot is called "mozwebqabot" and it joins #mozwebqa. You can override these values by passing them on the command line.
-The syntax is ```node bot.js [nick] \#[channel_name]
+The syntax is ```node bot.js [nick] \#[channel_name]```
 
 Note that you must escape the #-sign in the channel name using a backslash.
