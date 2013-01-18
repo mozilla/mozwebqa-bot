@@ -44,6 +44,9 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
     }
 
 client.addListener('join'+CHANNEL, function (nick) {
+  if (nick === 'firebot' || nick === NICK) {
+    return;
+  }
   if (!utils.seen(nick)){
     client.say(CHANNEL, "Welcome to "+CHANNEL+" "+nick+"! We love visitors! Please say hi and let us know how we can help you help us. For more information, type ':getInvolved'.");
     utils.joined.push(nick);
