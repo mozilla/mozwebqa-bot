@@ -1,12 +1,15 @@
 // Requires
 var irc = require('irc'),
     http = require('https'),
-    logger = require('./logger');
+    logger = require('./logger'),
+    utils = require('./utils.js');
 
-var ircServer = 'irc.mozilla.org',
-    // read nick and channel from command line arguments if they exist
-    nick = (process.argv[2]) ? process.argv[2] : 'mozwebqabot',
-    options = {channels: [(process.argv[3]) ? process.argv[3] : '#mozwebqa'],},
+// read nick and channel from command line arguments if they exist
+var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
+    NICK = (process.argv[2]) ? process.argv[2] : 'mozwebqabot',
+    ircServer = 'irc.mozilla.org',
+    nick = NICK,
+    options = {channels: [CHANNEL]},
     client = new irc.Client(ircServer, nick, options),
     help = { ":help" : "This is Help! :)",
              ":gist" : "Gives you a link to Pastebin",
@@ -49,6 +52,13 @@ var ircServer = 'irc.mozilla.org',
       }
 
     };
+
+client.addListener('join'+CHANNEL, function (nick) {
+  if (!utils.seen(nick)){
+    client.say(CHANNEL, "Welcome to "+CHANNEL+" "+nick+"! We love visitors! Please say hi and let us know how we can help you help us.");
+    utils.joined.push(nick);
+  }
+});
 
 client.addListener('message', function (from, to, message) {
   if (from === 'firebot') {
