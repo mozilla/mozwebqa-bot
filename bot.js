@@ -54,7 +54,7 @@ client.addListener('join'+CHANNEL, function (nick) {
 });
 
 client.addListener('message', function (from, to, message) {
-  if (from === 'firebot') {
+  if (from === 'firebot' || from === NICK) {
     console.log("ignoreing firebot")
     return;
   }
