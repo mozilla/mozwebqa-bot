@@ -16,7 +16,6 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
              ":yt" : "Pass in your search and I will give you a youtube link",
              "Bugzilla" : "Just add bug xxxxxx to a conversation and it will show a summary of the bug",
              ":source" : "Returns the GitHub URL for me",
-             ":pivotal" : "Type in the name project to get it's link or leave blank to get an entire list",
              ":list" : "Either returns the URL to the Google Group or a link with your search topic",
              ":standup" : "Shows the details for the standup the team has twice a week",
              ":meeting" : "Shows details and a link to the meetings page",
@@ -69,7 +68,6 @@ client.addListener('message', function (from, to, message) {
       client.say(to, "Ouch! Damn you, " + from + "!");
     }
   }
-
 
   if (message.search(":welcome") === 0){
     client.say(to, "Welcome to the Mozilla Web QA IRC channel. We love visitors! Please say hi and let us know if we can help you.");
@@ -166,31 +164,6 @@ client.addListener('message', function (from, to, message) {
 
   if (message.search(":source") === 0){
     client.say(to, 'My details and code lives at ' + source + '. Go have a look!');
-  }
-
-  if (message.search(":pivotal") === 0){
-    var projects = {
-        "team" : "https://www.pivotaltracker.com/projects/323503",
-        "shared modules" : "https://www.pivotaltracker.com/projects/344657",
-        "web apps" : "https://www.pivotaltracker.com/projects/350145",
-        "mozmill automation" : "https://www.pivotaltracker.com/projects/298905",
-        "api refactor" : "https://www.pivotaltracker.com/projects/311747",
-        "dashboard" : "https://www.pivotaltracker.com/projects/294869",
-    }
-
-    var project = /^:pivotal ((\w+)?(\s\w+)?)/.exec(message)
-    if (project === null){
-      for (var item in projects){
-        client.say(to, item + ' - ' + projects[item]);
-      }
-    } else {
-      try {
-        console.log(project);
-        client.say(to, project[1] + ' - ' + projects[project[1]]);
-      } catch (e) {
-        client.say(to, "Unfortunately that project doesn't appear to exist"); 
-      }
-    }
   }
 
   if (message.search(":list") === 0){
