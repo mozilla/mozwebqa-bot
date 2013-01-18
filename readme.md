@@ -10,3 +10,6 @@ Note that you must escape the #-sign in the channel name using a backslash.
 
 ## Deploying the bot to Heroku
 For information on deploying the bot to Heroku, see https://devcenter.heroku.com/articles/nodejs
+
+### Killing the process on Heroku
+```heroku ps:scale web=0```
