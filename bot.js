@@ -303,3 +303,10 @@ client.addListener('quit', function(who, reason, channel){
 client.addListener('error', function(message){
   console.error("message");
 });
+
+//make server to keep heroku happy
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('IRC bot at '+CHANNEL+' on irc.mozilla.org\n');
+}).listen(process.env.PORT||8080);
+

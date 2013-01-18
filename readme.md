@@ -1,7 +1,9 @@
-#Automation Services Bot
+#MozWebQA IRC Bot
 
-This is an IRC bot that sits and monitors what is happening in the channel it is also good at trying to help users where
-it can!
+This is an IRC bot that sits and monitors what is happening in the channel it is also good at trying to help users where it can!
 
-## Continuous Integration
-[![Build Status](https://secure.travis-ci.org/AutomatedTester/automation-services-bot.png)](http://travis-ci.org/AutomatedTester/automation-services-bot)
+## Staring the Bot
+By default the bot is called "mozwebqabot" and it joins #mozwebqa. You can override these values by passing them on the command line.
+The syntax is ```node bot.js [nick] \#[channel_name]
+
+Note that you must escape the #-sign in the channel name using a backslash.
