@@ -2,7 +2,6 @@
 var irc = require('irc'),
     http = require('http'),
     https = require('https'),
-    logger = require('./logger'),
     utils = require('./utils.js');
 
 // read nick and channel from command line arguments if they exist
@@ -65,7 +64,6 @@ client.addListener('message', function (from, to, message) {
   }
 
   console.log(from + ' => ' + to + ': ' + message);
-  logger.log({channel:to, from:from, message:message});
   if (message.search(nick) >= 0){
     if (message.search(/ hi[ $]?/i) >= 1){
       client.say(to, "Hi hi " + from);
@@ -158,7 +156,6 @@ client.addListener('message', function (from, to, message) {
           url = "https://bugzilla.mozilla.org/show_bug.cgi?id=" + bugID;
           if (data["bugs"].length === 0){
             returnMessage = "I can not see this bug, try clicking on " + url + " to see if it exists";
-            logger.log({channel:to, from:nick, message:returnMessage}); 
             client.say(to, returnMessage);
             return;
           }
@@ -167,8 +164,7 @@ client.addListener('message', function (from, to, message) {
           status = data["bugs"]["0"]["status"];
           resolution = data["bugs"]["0"]["resolution"];
           returnMessage = "Bug " + url + " " + severity + ", " + status + " " + resolution + ", " + summary;
-          logger.log({channel:to, from:nick, message:returnMessage});
-          client.say(to, returnMessage); 
+          client.say(to, returnMessage);
         }catch(e){
           console.error(e);            
         }
