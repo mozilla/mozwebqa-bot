@@ -1,6 +1,7 @@
 // Requires
 var irc = require('irc'),
-    http = require('https'),
+    http = require('http'),
+    https = require('https'),
     logger = require('./logger'),
     utils = require('./utils.js');
 
@@ -21,7 +22,11 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
              ":meeting" : "Shows details and a link to the meetings page",
              ":newissue" : "Just add :newissue project to a conversation and it will show a summary of the bug",
              ":github" : "Show a list of github projects",
-             ":getInvolved" : "Provide some information on getting involved in Web QA testing"
+             ":getInvolved" : "Provide some information on getting involved in Web QA testing",
+             ":trivia [number]" : "Show number based trivia from numbersapi.com",
+             ":year [year]" : "Show year based trivia from numbersapi.com",
+             ":date [day/month]" : "Show date based trivia from numbersapi.com",
+             ":today" : "Show date based trivia from numbersapi.com"
            },
     source = 'https://github.com/bobsilverberg/mozwebqa-bot',
 
@@ -106,7 +111,7 @@ client.addListener('message', function (from, to, message) {
         path: "/feeds/api/videos?q=" + message.substring(4).replace(/ /g, '+') + "&alt=json",
         method: 'GET'
     };
-    var req = http.request(options, function(res) {
+    var req = https.request(options, function(res) {
       var apiResult = '';
           
       res.on('data', function(d) {
@@ -141,7 +146,7 @@ client.addListener('message', function (from, to, message) {
         method: 'GET'
     };
     var apiResult = ''
-    var req = http.request(options, function(res) {
+    var req = https.request(options, function(res) {
       res.on('data', function(d) {
       apiResult += d; 
       });
@@ -224,15 +229,74 @@ client.addListener('message', function (from, to, message) {
       client.say(from, item + ": https://github.com/" + github[item]);
     }
   }
+
+  if (message.search(/:trivia/i) === 0) {
+    var number = message.indexOf(' ') !== -1 ? message.split(' ')[1] : 'random';
+    respond(to, 'trivia', number);
+  }
+
+  if (message.search(/:year/i) === 0) {
+    var number = message.indexOf(' ') !== -1  ? message.split(' ')[1] : 'random';
+    respond(to, 'year', number);
+  }
+
+  if (message.search(/:date/i) === 0) {
+    var number = message.indexOf(' ') !== -1  ? message.split(' ')[1] : 'random';
+    respond(to, 'date', number);
+  }
+
+  if (message.search(/:today/i) === 0) {
+    var now = new Date();
+    month = now.getMonth() + 1;
+    day = now.getDate();
+    respond(to, 'date', month + '/' + day);
+  }
 });
 
 client.addListener('error', function(message){
   console.error("message");
 });
 
+function respond(to, type, number) {
+  if (number !== 'random') {
+    if (type === 'date') {
+      date = number.split('/');
+      if (date.length !== 2 || isNaN(date[0]) || isNaN(date[1])) {
+        client.say(to, "That's not a valid date! Try again with the format :" + type + ' month/day');
+        return;
+      }
+    } else if (isNaN(number)) {
+      client.say(to, "That's not a valid number! Try again with the format :" + type + ' number');
+      return;
+    }
+  }
+  options = {
+    host: 'numbersapi.com',
+    port: 80,
+    path: '/' + number + '/' + type,
+    headers: { 'content-type': 'application/json' },
+    method: 'GET'
+  };
+  var req = http.request(options, function(res) {
+    var apiResult = '';
+    res.on('data', function(chunk) {
+      apiResult += chunk;
+    });
+    res.on('end', function() {
+      try {
+        data = JSON.parse(apiResult);
+        text = data['text'];
+        client.say(to, text + ' (http://numbersapi.com)');
+      } catch(e) {
+        console.error(e.message);
+      }
+    });
+  });
+  req.end();
+}
+
 //make server to keep heroku happy
-http.createServer(function (req, res) {
+https.createServer(function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end('IRC bot at '+CHANNEL+' on irc.mozilla.org\n');
 }).listen(process.env.PORT||8080);
-
