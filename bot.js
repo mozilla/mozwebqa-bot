@@ -9,7 +9,11 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
     NICK = (process.argv[2]) ? process.argv[2] : 'mozwebqabot',
     ircServer = 'irc.mozilla.org',
     nick = NICK,
-    options = {channels: [CHANNEL]},
+    options = {
+      channels: [CHANNEL],
+      autoConnect: true,
+      autoRejoin: true
+    },
     client = new irc.Client(ircServer, nick, options),
     help = { ":help" : "This is Help! :)",
              ":gist" : "Gives you a link to Pastebin",
@@ -249,8 +253,8 @@ client.addListener('message', function (from, to, message) {
   }
 });
 
-client.addListener('error', function(message){
-  console.error("message");
+client.addListener('error', function(message) {
+  console.log('error: ', message);
 });
 
 function respond(to, type, number) {
