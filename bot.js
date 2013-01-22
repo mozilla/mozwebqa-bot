@@ -31,7 +31,7 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
              ":date [day/month]" : "Show date based trivia from numbersapi.com",
              ":today" : "Show date based trivia from numbersapi.com"
            },
-    source = 'https://github.com/bobsilverberg/mozwebqa-bot',
+    source = 'https://github.com/mozilla/mozwebqa-bot',
 
     github = {
       "flightdeck": "mozilla/FlightDeck-selenium",
