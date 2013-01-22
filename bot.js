@@ -6,7 +6,7 @@ var irc = require('irc'),
 
 // read nick and channel from command line arguments if they exist
 var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
-    NICK = (process.argv[2]) ? process.argv[2] : 'mozwebqabot',
+    NICK = (process.argv[2]) ? process.argv[2] : 'Mozwebqabot',
     ircServer = 'irc.mozilla.org',
     nick = NICK,
     options = {
@@ -31,7 +31,7 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
              ":date [day/month]" : "Show date based trivia from numbersapi.com",
              ":today" : "Show date based trivia from numbersapi.com"
            },
-    source = 'https://github.com/bobsilverberg/mozwebqa-bot',
+    source = 'https://github.com/mozilla/mozwebqa-bot',
 
     github = {
       "flightdeck": "mozilla/FlightDeck-selenium",
