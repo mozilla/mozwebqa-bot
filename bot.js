@@ -2,7 +2,8 @@
 var irc = require('irc'),
     http = require('http'),
     https = require('https'),
-    utils = require('./utils.js');
+    utils = require('./utils.js'),
+    secret = require('./secret.js');
 
 // read nick and channel from command line arguments if they exist
 var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
@@ -50,6 +51,8 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
       "bouncer": "mozilla/bouncer-tests",
       "marketplace": "mozilla/marketplace-tests"
     };
+
+secret.addins(client, NICK);
 
 client.addListener('join'+CHANNEL, function (nick) {
   if (nick === 'firebot' || nick === NICK) {
