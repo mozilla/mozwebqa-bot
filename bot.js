@@ -52,7 +52,7 @@ var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
       "marketplace": "mozilla/marketplace-tests"
     };
 
-secret.addins(client, NICK);
+secret.addins(client, NICK, CHANNEL);
 
 client.addListener('join'+CHANNEL, function (nick) {
   if (nick === 'firebot' || nick === NICK) {

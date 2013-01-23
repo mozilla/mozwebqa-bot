@@ -1,4 +1,4 @@
-exports.addins = function(client, NICK){
+exports.addins = function(client, NICK, CHANNEL){
   client.addListener('message', function (from, to, message) {
     if (from === 'firebot' || from === NICK) {
       console.log("ignoring firebot");
