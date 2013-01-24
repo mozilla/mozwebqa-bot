@@ -61,8 +61,11 @@ client.addListener('join'+CHANNEL, function (nick) {
   if (!utils.seen(nick)){
     client.say(CHANNEL, "Welcome to "+CHANNEL+" "+nick+"! We love visitors! Please say hi and let us know how we can help you help us. For more information, type ':getInvolved'.");
     utils.joined.push(nick);
+    utils.save_seen();
   }
 });
+
+utils.load_seen();
 
 client.addListener('message', function (from, to, message) {
   if (from === 'firebot' || from === NICK) {
