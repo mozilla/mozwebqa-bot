@@ -1,9 +1,18 @@
 var fs = require('fs');
 
-exports.joined = []
-exports.moderators = {}
+exports.joined = [];
+exports.moderators = {};
+exports.teamMembers = [/bebe/i, /alint/i, /andrei/i, /teodosia/i, /andreih/i,
+  /bsilverberg/i, /davehunt/i, /krupa/i, /mbrandt/i, /retornam/i, /rbillings/i, /stephend/i, /zac/i];
+exports.regulars = [/klrmn/i, /automatedtester/i];
+exports.ignoreSeen = exports.teamMembers.concat(exports.regulars);
 
 exports.seen = function(nick){
+  for (i in exports.ignoreSeen){
+    if (nick.search(exports.ignoreSeen[i]) >= 0){
+      return true;
+    }
+  }
   for (i in exports.joined){
     if (exports.joined[i]==nick){
       return true;
