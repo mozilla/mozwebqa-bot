@@ -2,18 +2,26 @@
 var irc = require('irc'),
     http = require('http'),
     https = require('https'),
-    utils = require('./utils.js'),
+    users = require('./users.js'),
     secret = require('./secret.js');
 
-// read nick and channel from command line arguments if they exist
+// read nick, channel and Mongo uristring from command line arguments if they exist
 var CHANNEL = (process.argv[3]) ? process.argv[3] : '#mozwebqa',
-    NICK = (process.argv[2]) ? process.argv[2] : 'mozwebqabot',
-    ircServer = 'irc.mozilla.org',
+  NICK = (process.argv[2]) ? process.argv[2] : 'mozwebqabot',
+  uristring = (process.argv[4]) ? process.argv[4] :
+    process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
+    'mongodb://localhost/' + NICK + 'Db';
+
+users.setUpMongo(uristring);
+
+var ircServer = 'irc.mozilla.org',
     nick = NICK,
     options = {
       channels: [CHANNEL],
       autoConnect: true,
-      autoRejoin: true
+      autoRejoin: true,
+      debug: true
     },
     client = new irc.Client(ircServer, nick, options),
     help = { ":help" : "This is Help! :)",
@@ -58,14 +66,11 @@ client.addListener('join'+CHANNEL, function (nick) {
   if (nick === 'firebot' || nick === NICK) {
     return;
   }
-  if (!utils.seen(nick)){
-    client.say(CHANNEL, "Welcome to "+CHANNEL+" "+nick+"! We love visitors! Please say hi and let us know how we can help you help us. For more information, type ':getInvolved'.");
-    utils.joined.push(nick);
-    utils.save_seen();
-  }
-});
 
-utils.load_seen();
+  var joinMessage = "Welcome to "+CHANNEL+" "+nick+"! We love visitors! Please say hi and let us know how we can help you help us. For more information, type ':getInvolved'."
+  users.logUser(nick);
+  users.greetIfSeen(nick, joinMessage, client, CHANNEL);
+});
 
 client.addListener('message', function (from, to, message) {
   if (from === 'firebot' || from === NICK) {

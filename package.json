@@ -2,13 +2,13 @@
     "name": "MozWebQABot"
   , "version": "0.0.1"
   , "private": true
+  , "engines": {
+        "node": "0.8.x",
+        "npm":  "1.1.x"
+  }
   , "dependencies": {
       "irc": ">= 0.0.1"
-      , "mongoose": "2.3.5"
-      , "mocha": "0.12.1"
+      , "mongoose": ">= 0.0.1"
   }
-  , "scripts": {
-        "test": "mocha --reporter spec -t 20000"
-    }
 }
 
