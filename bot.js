@@ -57,7 +57,8 @@ var ircServer = 'irc.mozilla.org',
       "qmo": "mozilla/qmo-tests",
       "wiki": "mozilla/wiki-tests",
       "bouncer": "mozilla/bouncer-tests",
-      "marketplace": "mozilla/marketplace-tests"
+      "marketplace": "mozilla/marketplace-tests",
+      "bidpom": "mozilla/bidpom"
     };
 
 secret.addins(client, NICK, CHANNEL);
