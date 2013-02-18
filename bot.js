@@ -204,7 +204,7 @@ client.addListener('message', function (from, to, message) {
   }
 
   if (message.search(/:meeting/i) === 0){
-    client.say(to, "Come join us at 9AM PDT/PST on a Thursday. You can join in with Vidyo at https://v.mozilla.com/flex.html?roomdirect.html&key=ZAlDIwL9AJcf or dial in 650-903-0800 or 650-215-1282 x92 Conf #9303 (US/INTL) or 1-800-707-2533 (pin 369) Conf #9303 (US) you can get the agenda for the meetings at https://wiki.mozilla.org/QA/Execution/Web_Testing#Meetings");
+    client.say(to, "Come join us at 9AM PDT/PST on a Thursday. You can join in with Vidyo at https://v.mozilla.com/flex.html?roomdirect.html&key=ZAlDIwL9AJcf or dial in 650-903-0800 or 650-215-1282 x92 Conf #9303 (US/INTL) or 1-800-707-2533 (pin 369) Conf #9303 (US) you can get the agenda for the meetings at https://wiki.mozilla.org/QA/Execution/Web_Testing#Meeting_Notes");
   }
 
   if (message.search(/:newissue/i) >= 0){
