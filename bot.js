@@ -39,6 +39,8 @@ var ircServer = 'irc.mozilla.org',
              ":year [year]" : "Show year based trivia from numbersapi.com",
              ":date [day/month]" : "Show date based trivia from numbersapi.com",
              ":today" : "Show date based trivia from numbersapi.com"
+             ":ping" : "the bot will say pong to you"
+
            },
     source = 'https://github.com/mozilla/mozwebqa-bot',
 
@@ -101,6 +103,10 @@ client.addListener('message', function (from, to, message) {
 
   if (message.search(/:automated/i) === 0){
     client.say(to, "Very cool, " + from + ", I love automated testing too! You can find out more at https://quality.mozilla.org/teams/web-qa/#Automated, or just ask a question here.");
+  }
+  
+  if (message.search(/:ping/i) === 0){
+    client.say(to, " hi" + from + ", pong.");
   }
 
   if (message.search(/:manual/i) === 0){
