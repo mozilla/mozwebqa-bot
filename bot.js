@@ -67,7 +67,7 @@ client.addListener('join'+CHANNEL, function (nick) {
   if (nick === 'firebot' || nick === NICK) {
     return;
   }
-  var joinMessage = "Welcome to "+CHANNEL+" "+nick+"! We love visitors! I am the resident channel robot and I can help you figure out how to get involved. Please visit https://wiki.mozilla.org/QA/Execution/Web_Testing/Mozwebqabot to learn more about me."
+  var joinMessage = "Welcome to "+CHANNEL+" "+nick+"! We love visitors! I am the resident channel robot and I can help you figure out how to get involved. Please visit https://wiki.mozilla.org/QA/Execution/Web_Testing/Mozwebqabot to learn more."
   users.logUser(nick);
   users.greetIfSeen(nick, joinMessage, client, CHANNEL);
 });
