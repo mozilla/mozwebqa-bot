@@ -2,7 +2,7 @@
 
 This is an IRC bot that sits and monitors what is happening in the channel it is also good at trying to help users where it can!
 
-## Staring the Bot
+## Starting the Bot
 By default the bot is called "mozwebqabot" and it joins #mozwebqa. You can override these values by passing them on the command line.
 The syntax is ```node bot.js [nick] \#[channel_name]```
 
