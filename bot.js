@@ -26,19 +26,19 @@ var ircServer = 'irc.mozilla.org',
     client = new irc.Client(ircServer, nick, options),
     help = { ":help" : "This is Help! :)",
              ":gist" : "Gives you a link to Pastebin",
-             ":yt" : "Pass in your search and I will give you a youtube link",
+             ":yt" : "Pass in your search and I will give you a YouTube link",
              "Bugzilla" : "Just add bug xxxxxx to a conversation and it will show a summary of the bug",
              ":source" : "Returns the GitHub URL for me",
-             ":list" : "Returns the URL to the groups mailing list",
+             ":list" : "Returns the URL to the group's mailing list",
              ":standup" : "Shows the details for the standup the team has twice a week",
              ":meeting" : "Shows details and a link to the meetings page",
              ":newissue" : "Just add :newissue project to a conversation and it will show a summary of the bug",
-             ":github" : "Show a list of github projects",
+             ":github" : "Show a list of GitHub projects",
              ":getInvolved" : "Provide some information on getting involved in Web QA testing",
-             ":trivia [number]" : "Show number based trivia from numbersapi.com",
-             ":year [year]" : "Show year based trivia from numbersapi.com",
-             ":date [day/month]" : "Show date based trivia from numbersapi.com",
-             ":today" : "Show date based trivia from numbersapi.com"
+             ":trivia [number]" : "Show number-based trivia from numbersapi.com",
+             ":year [year]" : "Show year-based trivia from numbersapi.com",
+             ":date [day/month]" : "Show date-based trivia from numbersapi.com",
+             ":today" : "Show date-based trivia from numbersapi.com"
            },
     source = 'https://github.com/mozilla/mozwebqa-bot',
 
@@ -170,7 +170,7 @@ client.addListener('message', function (from, to, message) {
           data = JSON.parse(apiResult);
           url = "https://bugzilla.mozilla.org/show_bug.cgi?id=" + bugID;
           if (data["bugs"].length === 0){
-            returnMessage = "I can not see this bug, try clicking on " + url + " to see if it exists";
+            returnMessage = "I cannot see this bug, try clicking on " + url + " to see if it exists";
             client.say(to, returnMessage);
             return;
           }
@@ -188,7 +188,7 @@ client.addListener('message', function (from, to, message) {
 
     req.on('error', function (error) {
       console.error(error);
-      client.say(to, "Unfortunately there was an error trying to retrieve that bug, please try again. If this happens again please ping AutomatedTester");
+      client.say(to, "Unfortunately, there was an error trying to retrieve that bug, please try again. If this happens again, please ping :AutomatedTester");
     });
 
     req.end();
@@ -212,10 +212,10 @@ client.addListener('message', function (from, to, message) {
       if (project[1] in github){
         client.say(to, "Please raise an issue at https://github.com/" + github[project[1]] + "/issues/new");
       } else {
-        client.say(to, "I am sorry I don't know of that project. Please raise an issue at " + source + '/issues/new/ if I should know about it!');
+        client.say(to, "Sorry, I don't know of that project. Please raise an issue at " + source + '/issues/new/ if I should know about it!');
       }
     } else {
-      client.say(to, "please use the syntax :newissue project. You can get a list of projects by calling :github");
+      client.say(to, "Please use the syntax :newissue project. You can get a list of projects by calling :github");
     }
   }
 
@@ -227,11 +227,11 @@ client.addListener('message', function (from, to, message) {
       if (github[key] && github[key][project[1]]){
         client.say(to, "Issues for " + project[1] +  " can be found at " + github[key][project[1]] + "/issues");
       } else {
-        client.say(to, "I am sorry I don't know of that project. Please raise an issue on " +
+        client.say(to, "Sorry, I don't know of that project. Please raise an issue on " +
             source + "/issues/new if I should know about it");
       }
     } else {
-      client.say(to, "please use the syntax :issues project. You can get a list of projects by calling :github");
+      client.say(to, "Please use the syntax :issues project. You can get a list of projects by calling :github");
     }
   }
 
