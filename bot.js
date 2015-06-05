@@ -31,6 +31,7 @@ var ircServer = 'irc.mozilla.org',
              ":source" : "Returns the GitHub URL for me",
              ":list" : "Returns the URL to the group's mailing list",
              ":meeting" : "Shows details and a link to the meetings page",
+             ":vidyo" : "Give you details for joining our Vidyo room",
              ":newissue" : "Just add :newissue project to a conversation and it will show a summary of the bug",
              ":github" : "Show a list of GitHub projects",
              ":getInvolved" : "Provide some information on getting involved in Web QA testing",
@@ -202,7 +203,13 @@ client.addListener('message', function (from, to, message) {
   }
 
   if (message.search(/:meeting/i) === 0){
-    client.say(to, "Come join us at 9AM PDT/PST on a Thursday. You can join in with Vidyo at https://v.mozilla.com/flex.html?roomdirect.html&key=ZAlDIwL9AJcf or dial in 650-903-0800 or 650-215-1282 x92 Conf #9303 (US/INTL) or 1-800-707-2533 (pin 369) Conf #9303 (US)");
+    client.say(to, "Come join us at 9AM Pacific every Thursday!");
+    client.say(to, "Meeting notes are available at https://wiki.mozilla.org/QA/Execution/Web_Testing#Meeting_Notes")
+    vidyo(to)
+  }
+
+  if (message.search(/:vidyo/i) === 0){
+    vidyo(to);
   }
 
   if (message.search(/:newissue/i) >= 0){
@@ -266,6 +273,13 @@ client.addListener('message', function (from, to, message) {
 client.addListener('error', function(message) {
   console.log('error: ', message);
 });
+
+function vidyo(to) {
+  client.say(to, "Our Vidyo room is WebQA (8824)")
+  client.say(to, "Public link: https://v.mozilla.com/flex.html?roomdirect.html&key=Tc08xVjMQmaVscjhN5jlm7mDknY");
+  client.say(to, "Joining by phone: https://wiki.mozilla.org/Teleconferencing#Dialing_In");
+  client.say(to, "For information on Vidyo: https://wiki.mozilla.org/Vidyo");
+}
 
 function respond(to, type, number) {
   if (number !== 'random') {
