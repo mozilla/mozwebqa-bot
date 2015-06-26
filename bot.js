@@ -83,12 +83,6 @@ client.addListener('message', function (from, to, message) {
     if (message.search(/ hi[ $]?/i) >= 1){
       client.say(to, "Hi hi " + from);
     }
-    if (message.search(/damn you/i) >= 0) {
-      client.say(to, "I am so sorry " + from + ", can we hug?");
-    }
-    if (message.search(/pew pew/i) >= 0) {
-      client.say(to, "Ouch! Damn you, " + from + "!");
-    }
   }
 
   if (message.search(/:welcome/i) === 0){
